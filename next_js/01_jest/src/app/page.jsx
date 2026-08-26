@@ -6,8 +6,54 @@
     5. 테스트코드 작성
     6. npm run test
  */
+'use client'
+
+import {useState} from "react";
+
 export default function App(){
+
+    const [result, setResult] = useState({su1:0, su2:0, oper:'+', result:0});
+
+    const setVal = function (e){
+        setResult({
+            ...result
+            ,[e.target.name]:e.target.value
+        });
+    }
+
+    const calculate = function(){
+        const {su1,su2,oper} = result;
+
+        let num1 = parseInt(su1);
+        let num2 = parseInt(su2)
+
+        if(oper === '+'){
+            setResult({...result, result:num1+num2});
+        }
+        if(oper === '-'){
+            setResult({...result, result:num1-num2});
+        }
+        if(oper === '*'){
+            setResult({...result, result:num1*num2});
+        }
+        if(oper === '/'){
+            setResult({...result, result:num1/num2});
+        }
+
+    }
+
     return(
-        <div>Hello Test</div>
+        <div>
+            <input type={"number"} name={"su1"} value={result.su1} onChange={setVal}/>
+            <select name={"oper"} onChange={setVal}>
+                <option value={"+"}>+</option>
+                <option value={"-"}>-</option>
+                <option value={"*"}>*</option>
+                <option value={"/"}>/</option>
+            </select>
+            <input type={"number"} name={"su2"} value={result.su2} onChange={setVal}/>
+            <p><button onClick={calculate}>계산</button></p>
+            <h3>답 : {result.result}</h3>
+        </div>
     );
 }
