@@ -26,4 +26,7 @@ const router = require('./routers');
 // route라는 요청이 오면 router로 연결 ... 
 app.use('/route', router);
 
+// use를 사용해 쓰는 모듈을 '미들웨어'라고 한다.
+// 미들웨어, 라우터에 당도하기 전에 무언가를 해주는 모듈(인터셉터)
+
 app.listen(port, ()=>console.log(`http://localhost:${port}`));

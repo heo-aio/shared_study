@@ -1,5 +1,13 @@
 ### 1. 회원 등록
 POST http://localhost/member/join
+Content-Type: application/json
+
+{
+  "id": "user",
+  "pw": "qwert!234",
+  "name": "HeoJungMo",
+  "phone": "4642-2532"
+}
 
 ### 2. 회원 목록
 GET http://localhost/member/list
@@ -9,6 +17,12 @@ GET http://localhost/member/get/heo
 
 ### 4. 회원 수정
 PUT http://localhost/member/update/ppp97859
+Content-Type: application/json
+
+{
+  "name": "update name",
+  "phone": "1234-5678"
+}
 
 ### 5. 회원 삭제
 DELETE http://localhost/member/delete/ppp97859

@@ -1,0 +1,42 @@
+const express = require('express');
+const app = express();
+
+//GET /rest/admin/pass
+app.get('/rest/:id/:pw', function(req, res){
+    console.log(req.params); // post에서는 이걸로 받을 수 없다.
+    // const id = req.params.id;
+    const {id, pw} = req.params;
+
+    res.json({'msg': '잘 받았음',
+                        'params': {id, pw} // params : {id:id, pw:pw}
+    });
+});
+
+//GET /get_method?id=admin&pw=pass
+app.get('/get_method', function(req, res){
+    console.log(req.query);
+    const {id, pw, mm} = req.query;
+
+    res.json({'query':{id, pw, mm}});
+});
+
+
+//POST /login
+// {id:"admin", pw:"pass"}
+// request의 body에 JSON형태의 데잍러르 받을 때 ex) Axios
+app.use(express.json());
+app.post('/login', function(req, res){
+    console.log('body', req.body);
+
+    const {id, pw} = req.body;
+    res.json({"body": {id, pw}});
+});
+
+// 위 URL외의 것이 왔을 때 처리
+app.use('/*path', function(req, res){
+    res.send('잘못된 요청 입니다.');
+});
+
+app.listen(80,function(){
+    console.log('http://localhost');
+});
