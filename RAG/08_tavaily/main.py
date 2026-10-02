@@ -51,4 +51,32 @@ def detail_content(query:str):
         print(content["results"][0].keys())
         print(content["results"][0]["raw_content"])
 
-detail_content("개발 코딩 잘하는 법")
+# detail_content("개발 코딩 잘하는 법")
+
+def advanced_search(query:str):
+    # include_answer = "advanced",      : Tavily에서 검색결과로 만든 요약답변 포함
+    # include_raw_content = "markdown", : 페이지 본문 전체 포함(markdown)
+    # time_ragne = "year",              : 기간(day, month, year)
+    # exclude_domains = ["youtube.com"] : 특정 도메인 제외(include_domains=[]를 이용해 필수포함)
+
+    search = TavilySearch(
+        max_results=3,              # 검색 갯수
+        topic="general",            # 일반검색이냐 new냐 등
+        search_depth="advanced",    # basic의 2배로 검색 (깊이 탐색)
+        include_answer="advanced",
+        include_raw_content="markdown",
+        time_ragne="year",
+        exclude_domains=["youtube.com"]
+    )
+
+    result = search.invoke({"query": query})
+
+    for r in result["results"]:
+        print(f"keys : {r.keys()}")
+        print(f"TITLE : {r['title']}")
+        print(f"CONTENT : {r['content']}")
+        print("===" * 120)
+        print(f"RAW_CONTENT : {r['raw_content']}")
+        break
+
+advanced_search("롯데자이언츠가 매년 성적이 안좋은 이유")
