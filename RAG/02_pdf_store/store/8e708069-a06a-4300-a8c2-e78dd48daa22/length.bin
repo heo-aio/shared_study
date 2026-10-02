@@ -1,0 +1,1 @@
+invalid type: string "MLPClassifier (\nsolver='lbfgs’,\nrandom_state =0,\nmax_iter =100000,\nhidden_layer_sizes =(3,3,3,3)\n).fit(x,y)\n실습파일  : 32_mlp.ipynb경사 하강 알고리즘  선택(39페이지 )\nlbfgs: 속도가  빠르고  적은 데이터에  최적화\nsgd-데이터가  많은경우 , 가중치를  점진적으로  갱신, 속도가  느림\n 늘어난다 .\n는 경우\n) �

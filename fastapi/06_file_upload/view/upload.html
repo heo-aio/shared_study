@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>파일 업로드</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h3>정모의 파일 업로드 페이지</h3>
+    <form id="fileForm">
+        <input type="file" name="files" multiple="multiple"/>
+    </form>
+    <input type="button" onclick="save()" value="전송"/>
+</body>
+<script>
+    // 파일 전송 시 주의사항
+    // 1. POST방식으로 보낼 것
+    // 2. FormData 객체로 보낼 것
+    // 3. 동기 방식일 경우 enctype=multipart/form-data 명시할 것
+    async function save(){
+        console.log("클릭");
+
+        const fileInput = document.querySelector("input[type=file]");
+
+        if (fileInput.files.length === 0) {
+            alert("파일이 선택되지 않았습니다. 업로드할 파일을 올려주세요.");
+            // return;
+        }
+
+        const form = new FormData(document.getElementById("fileForm"));
+        // 비동기(async/await) 방식으로 서버의 /upload 주소에 POST 요청을 보냄
+        const {data, status, headers} = await axios.post('/upload', form);
+        // form.append("files")
+
+        // server가 보낸 response
+        // status: 상태 코드 (예: 200 성공, 404 없음)
+        // headers: 서버가 보낸 응답 헤더 정보
+        // data: 진짜 서버가 우리한테 보내고 싶었던 메시지나 데이터 (예: {"msg": "업로드 성공!"})
+        console.log("응답 상태 : ", status)
+        console.log("응답 헤더 : ", headers)
+        console.log("서버 데이터 : ", data)
+
+        alert(data.msg);
+
+        if (data.msg === "파일 업로드 성공") {
+            location.href = '/view/file_list.html'
+        }
+    }
+</script>
+</html>

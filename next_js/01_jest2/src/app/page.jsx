@@ -1,0 +1,62 @@
+/*
+    1. JEST 설치 -> npm install -D jest jest-environment-jsdom
+    2. jest.config.js 설정
+    3. package.json에 test script추가
+    4. 모듈작성(테스터블 하게)
+    5. 테스트코드 작성
+    6. npm run test
+ */
+'use client';
+
+import {useState} from "react";
+import {divide, minus, multiply, plus} from "@/app/calcModuels";
+
+export default function App(){
+    const [result, setResult] = useState({su1:0, su2:0, oper:'+', result:0});
+
+    const set_val = function(e){
+        setResult({
+            ...result,
+            [e.target.name]: e.target.value
+        });
+    }
+
+    const cal = () => {
+        const {su1, su2, oper} = result;
+
+        let num1 = parseInt(su1);
+        let num2 = parseInt(su2);
+
+        if (oper === '+'){
+            // setResult({...result, result:num1 + num2});
+            setResult({...result, result:plus(num1, num2)});
+        }
+        if (oper === '-'){
+            // setResult({...result, result:num1 - num2});
+            setResult({...result, result:minus(num1, num2)});
+        }
+        if (oper === '*'){
+            // setResult({...result, result:num1 * num2});
+            setResult({...result, result:multiply(num1, num2)});
+        }
+        if (oper === '/'){
+            // setResult({...result, result:num1 / num2});
+            setResult({...result, result:divide(num1, num2)});
+        }
+    }
+
+    return(
+        <div>
+            <input type={"number"} name={"su1"} value={result.su1} onChange={set_val}/>
+            <select name={'oper'} onChange={set_val}>
+                <option value={'+'}>+</option>
+                <option value={'-'}>-</option>
+                <option value={'*'}>*</option>
+                <option value={'/'}>/</option>
+            </select>
+            <input type={"number"} name={"su2"} value={result.su2} onChange={set_val}/>
+            <p><button onClick={cal}>계산</button></p>
+            <h3>답 :{result.result}</h3>
+        </div>
+    );
+}

@@ -1,0 +1,9 @@
+# 서버
+fastapi
+uvicorn
+pydynamic
+
+# langchain
+langchain-core
+langchain-ollama
+langchain

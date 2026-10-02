@@ -61,13 +61,14 @@ GET http://localhost/member/list
 GET http://localhost/member/get/qqqwe
 
 ### 4. 회원 수정
-PUT http://localhost/member/update/ppp97859
+PUT http://localhost/member/update/admin12311
 Content-Type: application/json
 
 {
-  "name": "update name",
-  "phone": "1234-5678"
+  "name": "허정모(수정된 이름)",
+  "phone": "4321-9876",
+  "grade": "admin"
 }
 
 ### 5. 회원 삭제
-DELETE http://localhost/member/delete/ppp97859
+DELETE http://localhost/member/delete/user

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>감정일기</title>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+
+  <h1>오늘의 감정일기</h1>
+
+  <textarea id="diaryInput" rows="8" cols="50" placeholder="오늘 있었던 일을 적어보세요"></textarea>
+  <br>
+  <button id="analyzeBtn">감정 분석하기</button>
+
+  <div id="resultBox">
+  <span id="emotionBadge"></span>
+  <p id="commentText"></p>
+  </div>
+
+  <script>
+async function askAI() {
+  const text = input.value.trim();
+  if (!text) { return; }
+
+  const emotionBadge = document.getElementById('emotionBadge');
+  const commentText = document.getElementById('commentText');
+
+  emotionBadge.textContent = '';
+  commentText.textContent = '분석 중...';
+
+  let buffer = "";
+  let emotionDone = false;
+
+  const { data } = await axios({
+    method: 'post',
+    url: '/api/analyze',
+    data: { text },
+    responseType: 'stream',
+    adapter: 'fetch'
+  });
+
+  const reader = data.getReader();
+  const decoder = new TextDecoder();
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+
+    const chunk = decoder.decode(value, { stream: true });
+
+    if (!emotionDone) {
+      buffer += chunk;
+
+      if (buffer.includes('---')) {
+        const [rawEmotion, ...rest] = buffer.split('---');
+        let emotion = rawEmotion.trim();
+
+        if (!EMOTION_COLORS[emotion]){
+          emotion = "평온";
+        }
+
+        emotionBadge.textContent = emotion;
+        emotionBadge.style.color = EMOTION_COLORS[emotion];
+
+        commentText.textContent = rest.join('---').trimStart();
+        emotionDone = true;
+
+      }
+      // 주의: 이 if 블록 안에서는 아직 "---"를 못 찾았을 수도 있어요.
+      // 그 경우엔 이번 루프에서 할 일이 없다는 뜻이에요 (다음 청크 기다림).
+
+    } else {
+      // ---------- 여기 채워보기 2 ----------
+      // emotionDone이 true라는 건 이미 배지는 다 그렸다는 뜻
+      // 이제부턴 그냥 commentText에 chunk를 계속 이어붙이기만 하면 됨
+
+    }
+  }
+}
+  </script>
+
+</body>
+</html>

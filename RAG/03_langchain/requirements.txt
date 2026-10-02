@@ -1,0 +1,12 @@
+# langchain
+langchain-text-splitters
+langchain
+langchain-core
+langchain-ollama
+
+# chromadb
+chromadb
+langchain-chroma
+
+# PDF
+PyPDF2
